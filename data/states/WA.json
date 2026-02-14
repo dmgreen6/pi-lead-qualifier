@@ -1,0 +1,20 @@
+{
+  "name": "Washington",
+  "abbreviation": "WA",
+  "sol_years": 3,
+  "sol_notes": "3 years from date of injury for personal injury claims",
+  "counties": [
+    "Adams", "Asotin", "Benton", "Chelan", "Clallam", "Clark", "Columbia",
+    "Cowlitz", "Douglas", "Ferry", "Franklin", "Garfield", "Grant", "Grays Harbor",
+    "Island", "Jefferson", "King", "Kitsap", "Kittitas", "Klickitat", "Lewis",
+    "Lincoln", "Mason", "Okanogan", "Pacific", "Pend Oreille", "Pierce", "San Juan",
+    "Skagit", "Skamania", "Snohomish", "Spokane", "Stevens", "Thurston", "Wahkiakum",
+    "Walla Walla", "Whatcom", "Whitman", "Yakima"
+  ],
+  "major_metros": {
+    "Seattle": ["King", "Pierce", "Snohomish", "Kitsap"],
+    "Spokane": ["Spokane"],
+    "Vancouver": ["Clark"]
+  },
+  "default_preferred_counties": ["King", "Pierce", "Snohomish"]
+}

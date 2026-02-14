@@ -1,0 +1,41 @@
+[Unit]
+Description=Pflug Law Lead Qualifier Service
+After=network.target
+Documentation=https://github.com/pfluglaw/lead-qualifier
+
+[Service]
+Type=simple
+User=pflug
+Group=pflug
+WorkingDirectory=/opt/pflug-qualifier
+Environment="PATH=/opt/pflug-qualifier/venv/bin"
+EnvironmentFile=/opt/pflug-qualifier/.env
+ExecStart=/opt/pflug-qualifier/venv/bin/python -m src.main
+Restart=always
+RestartSec=10
+
+# Graceful shutdown
+TimeoutStopSec=30
+KillSignal=SIGTERM
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/pflug-qualifier /opt/pflug-qualifier
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=50%
+
+# Logging
+StandardOutput=append:/var/log/pflug-qualifier/service.log
+StandardError=append:/var/log/pflug-qualifier/error.log
+SyslogIdentifier=pflug-qualifier
+
+[Install]
+WantedBy=multi-user.target

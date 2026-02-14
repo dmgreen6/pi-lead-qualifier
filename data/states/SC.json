@@ -1,0 +1,22 @@
+{
+  "name": "South Carolina",
+  "abbreviation": "SC",
+  "sol_years": 3,
+  "sol_notes": "3 years from date of injury for personal injury claims",
+  "counties": [
+    "Abbeville", "Aiken", "Allendale", "Anderson", "Bamberg", "Barnwell",
+    "Beaufort", "Berkeley", "Calhoun", "Charleston", "Cherokee", "Chester",
+    "Chesterfield", "Clarendon", "Colleton", "Darlington", "Dillon",
+    "Dorchester", "Edgefield", "Fairfield", "Florence", "Georgetown",
+    "Greenville", "Greenwood", "Hampton", "Horry", "Jasper", "Kershaw",
+    "Lancaster", "Laurens", "Lee", "Lexington", "Marion", "Marlboro",
+    "McCormick", "Newberry", "Oconee", "Orangeburg", "Pickens", "Richland",
+    "Saluda", "Spartanburg", "Sumter", "Union", "Williamsburg", "York"
+  ],
+  "major_metros": {
+    "Charleston": ["Charleston", "Berkeley", "Dorchester"],
+    "Columbia": ["Richland", "Lexington"],
+    "Greenville-Spartanburg": ["Greenville", "Spartanburg", "Anderson", "Pickens"]
+  },
+  "default_preferred_counties": ["Charleston", "Berkeley", "Dorchester"]
+}

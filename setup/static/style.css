@@ -1,0 +1,542 @@
+/* PI Lead Qualifier Setup Wizard Styles */
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --error: #dc2626;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-700: #374151;
+    --gray-900: #111827;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+.tagline {
+    color: var(--gray-700);
+    margin-top: 0.5rem;
+}
+
+/* Mode Selection Cards */
+.mode-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.mode-card {
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.mode-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mode-card.featured {
+    border-color: var(--primary);
+}
+
+.mode-card .badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.mode-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.mode-card .price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.mode-card ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.mode-card li {
+    padding: 0.25rem 0;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Footer */
+footer {
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--gray-700);
+}
+
+footer a {
+    color: var(--primary);
+}
+
+/* ================================
+   Wizard Styles
+   ================================ */
+
+.wizard {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Progress Bar */
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.progress-step.active .step-number {
+    background: var(--primary);
+    color: white;
+}
+
+.progress-step.completed .step-number {
+    background: var(--success);
+    color: white;
+}
+
+.step-label {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    font-weight: 500;
+}
+
+.progress-step.active .step-label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.progress-step.completed .step-label {
+    color: var(--success);
+}
+
+.progress-line {
+    width: 80px;
+    height: 3px;
+    background: var(--gray-200);
+    margin: 0 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Wizard Steps */
+.wizard-step {
+    display: none;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.wizard-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-step h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--gray-900);
+}
+
+.step-description {
+    color: var(--gray-700);
+    margin-bottom: 2rem;
+}
+
+/* Field Hints */
+.field-hint {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    margin-top: 0.5rem;
+}
+
+.field-hint a {
+    color: var(--primary);
+}
+
+/* Checkbox Grid for Counties */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.checkbox-item:hover {
+    border-color: var(--primary);
+}
+
+.checkbox-item.checked {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.checkbox-item input {
+    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Radio Cards for AI Provider */
+.radio-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.radio-card {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.radio-card:hover {
+    border-color: var(--primary);
+}
+
+.radio-card.selected {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.03);
+}
+
+.radio-card input {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-card-content {
+    flex: 1;
+}
+
+.radio-card-content h4 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    color: var(--gray-900);
+}
+
+.radio-card-content p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+}
+
+.radio-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--gray-200);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.radio-card.selected .radio-check {
+    border-color: var(--primary);
+}
+
+.radio-card.selected .radio-check::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+/* Validation Section */
+.validation-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: 8px;
+}
+
+.validation-section .btn {
+    width: auto;
+    flex-shrink: 0;
+}
+
+/* Status Indicators */
+.status-indicator {
+    flex: 1;
+}
+
+.status-pending {
+    color: var(--gray-700);
+}
+
+.status-success {
+    color: var(--success);
+    font-weight: 500;
+}
+
+.status-error {
+    color: var(--error);
+    font-weight: 500;
+}
+
+/* Wizard Navigation */
+.wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.wizard-nav .btn {
+    width: auto;
+    min-width: 120px;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background: white;
+    color: var(--gray-700);
+    border: 2px solid var(--gray-200);
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    border-color: var(--gray-700);
+    color: var(--gray-900);
+}
+
+/* Success Screen */
+.success-content {
+    text-align: center;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+}
+
+.next-steps {
+    text-align: left;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--gray-50);
+    border-radius: 8px;
+}
+
+.next-steps h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.next-steps ol {
+    padding-left: 1.25rem;
+}
+
+.next-steps li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.next-steps code {
+    display: inline-block;
+    background: var(--gray-200);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .progress-line {
+        width: 40px;
+    }
+
+    .step-label {
+        font-size: 0.75rem;
+    }
+
+    .radio-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .wizard-nav {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .wizard-nav .btn {
+        width: 100%;
+    }
+}

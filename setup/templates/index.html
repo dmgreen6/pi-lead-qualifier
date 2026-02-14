@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="welcome">
+    <h2>Welcome to Setup</h2>
+    <p>Choose your setup mode to get started:</p>
+
+    <div class="mode-cards">
+        <div class="mode-card" onclick="location.href='/starter'">
+            <h3>Starter Mode</h3>
+            <p class="price">Free</p>
+            <ul>
+                <li>&#10003; Airtable integration</li>
+                <li>&#10003; AI-powered scoring</li>
+                <li>&#10003; Lead tier assignment</li>
+                <li>&#10007; Clio integration</li>
+                <li>&#10007; Email notifications</li>
+            </ul>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+
+        <div class="mode-card featured" onclick="location.href='/pro'">
+            <span class="badge">Recommended</span>
+            <h3>Pro Mode</h3>
+            <p class="price">Free</p>
+            <ul>
+                <li>&#10003; Everything in Starter</li>
+                <li>&#10003; Clio matter creation</li>
+                <li>&#10003; Email notifications</li>
+                <li>&#10003; Auto-decline emails</li>
+                <li>&#10003; Full automation</li>
+            </ul>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

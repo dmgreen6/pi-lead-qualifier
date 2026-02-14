@@ -1,0 +1,475 @@
+{% extends "base.html" %}
+
+{% block title %}Starter Mode Setup - PI Lead Qualifier{% endblock %}
+
+{% block content %}
+<div class="wizard">
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-step active" data-step="1">
+            <span class="step-number">1</span>
+            <span class="step-label">Firm Info</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="2">
+            <span class="step-number">2</span>
+            <span class="step-label">Airtable</span>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="3">
+            <span class="step-number">3</span>
+            <span class="step-label">AI Provider</span>
+        </div>
+    </div>
+
+    <!-- Step 1: Firm Information -->
+    <div class="wizard-step active" id="step-1">
+        <h2>Firm Information</h2>
+        <p class="step-description">Tell us about your firm so we can personalize the system.</p>
+
+        <div class="form-group">
+            <label for="firm_name">Firm Name</label>
+            <input type="text" id="firm_name" placeholder="e.g., Smith & Associates Law Firm" required>
+        </div>
+
+        <div class="form-group">
+            <label for="attorney_name">Primary Attorney Name</label>
+            <input type="text" id="attorney_name" placeholder="e.g., John Smith" required>
+        </div>
+
+        <div class="form-group">
+            <label for="state">State</label>
+            <select id="state" required>
+                <option value="">Select your state...</option>
+            </select>
+            <p class="field-hint" id="sol-hint"></p>
+        </div>
+
+        <div class="form-group" id="counties-group" style="display: none;">
+            <label>Preferred Counties</label>
+            <p class="field-hint">Select the counties where you primarily practice. These leads will be prioritized.</p>
+            <div class="checkbox-grid" id="counties-grid">
+                <!-- Counties will be populated dynamically -->
+            </div>
+        </div>
+
+        <div class="wizard-nav">
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+            <button type="button" class="btn btn-primary" onclick="goToStep(2)">Next: Airtable Setup</button>
+        </div>
+    </div>
+
+    <!-- Step 2: Airtable Connection -->
+    <div class="wizard-step" id="step-2">
+        <h2>Airtable Connection</h2>
+        <p class="step-description">Connect to your Airtable base where leads will be stored.</p>
+
+        <div class="form-group">
+            <label for="airtable_api_key">Airtable API Key</label>
+            <input type="password" id="airtable_api_key" placeholder="pat..." required>
+            <p class="field-hint">
+                Get your API key from <a href="https://airtable.com/create/tokens" target="_blank" rel="noopener noreferrer">Airtable Developer Hub</a>
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label for="airtable_base_id">Base ID</label>
+            <input type="text" id="airtable_base_id" placeholder="app..." required>
+            <p class="field-hint">Found in your base URL: airtable.com/<strong>appXXXXXX</strong>/...</p>
+        </div>
+
+        <div class="form-group">
+            <label for="airtable_table_id">Table ID</label>
+            <input type="text" id="airtable_table_id" placeholder="tbl..." required>
+            <p class="field-hint">Found in your table URL: .../<strong>tblXXXXXX</strong>/...</p>
+        </div>
+
+        <div class="validation-section">
+            <button type="button" class="btn btn-secondary" onclick="validateAirtable()">
+                Validate Connection
+            </button>
+            <div class="status-indicator" id="airtable-status"></div>
+        </div>
+
+        <div class="wizard-nav">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+            <button type="button" class="btn btn-primary" onclick="goToStep(3)">Next: AI Provider</button>
+        </div>
+    </div>
+
+    <!-- Step 3: AI Provider Selection -->
+    <div class="wizard-step" id="step-3">
+        <h2>AI Provider</h2>
+        <p class="step-description">Choose your AI provider for lead scoring and analysis.</p>
+
+        <div class="radio-cards">
+            <label class="radio-card selected" onclick="selectProvider('anthropic', this)">
+                <input type="radio" name="ai_provider" value="anthropic" checked>
+                <div class="radio-card-content">
+                    <h4>Claude (Anthropic)</h4>
+                    <p>Recommended for nuanced legal analysis</p>
+                </div>
+                <span class="radio-check"></span>
+            </label>
+
+            <label class="radio-card" onclick="selectProvider('openai', this)">
+                <input type="radio" name="ai_provider" value="openai">
+                <div class="radio-card-content">
+                    <h4>GPT-4 (OpenAI)</h4>
+                    <p>Fast and reliable alternative</p>
+                </div>
+                <span class="radio-check"></span>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="ai_api_key" id="ai_key_label">Anthropic API Key</label>
+            <input type="password" id="ai_api_key" placeholder="sk-ant-..." required>
+            <p class="field-hint" id="ai_key_hint">
+                Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Anthropic Console</a>
+            </p>
+        </div>
+
+        <div class="validation-section">
+            <button type="button" class="btn btn-secondary" onclick="validateAI()">
+                Validate API Key
+            </button>
+            <div class="status-indicator" id="ai-status"></div>
+        </div>
+
+        <div class="wizard-nav">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+            <button type="button" class="btn btn-primary" onclick="generateConfig()">Generate My System</button>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div class="wizard-step" id="step-success">
+        <div class="success-content">
+            <div class="success-icon">&#10003;</div>
+            <h2>Setup Complete!</h2>
+            <p class="step-description">Your PI Lead Qualifier is ready to use.</p>
+
+            <div class="next-steps">
+                <h3>Next Steps</h3>
+                <ol>
+                    <li>
+                        <strong>Start the qualifier:</strong>
+                        <code>python run_local.py</code>
+                    </li>
+                    <li>
+                        <strong>Add leads to Airtable:</strong>
+                        New leads will be automatically scored and categorized.
+                    </li>
+                    <li>
+                        <strong>Review your .env file:</strong>
+                        <code id="env-path">.env</code>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="wizard-nav">
+                <a href="/" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Wizard state
+let currentStep = 1;
+let stateData = null;
+let selectedCounties = [];
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadStates();
+});
+
+// Load available states
+async function loadStates() {
+    try {
+        const response = await fetch('/api/states');
+        const states = await response.json();
+        const select = document.getElementById('state');
+
+        states.forEach(abbr => {
+            const option = document.createElement('option');
+            option.value = abbr;
+            option.textContent = abbr;
+            select.appendChild(option);
+        });
+
+        // Add change listener
+        select.addEventListener('change', onStateChange);
+    } catch (error) {
+        console.error('Failed to load states:', error);
+    }
+}
+
+// Handle state selection
+async function onStateChange(e) {
+    const abbr = e.target.value;
+    if (!abbr) {
+        document.getElementById('counties-group').style.display = 'none';
+        document.getElementById('sol-hint').textContent = '';
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/state/${abbr}`);
+        stateData = await response.json();
+
+        // Show SOL info
+        document.getElementById('sol-hint').textContent =
+            `Statute of Limitations: ${stateData.sol_years} years - ${stateData.sol_notes}`;
+
+        // Populate counties
+        const grid = document.getElementById('counties-grid');
+        grid.innerHTML = '';
+        selectedCounties = [...stateData.default_preferred_counties];
+
+        stateData.counties.forEach(county => {
+            const isDefault = stateData.default_preferred_counties.includes(county);
+            const label = document.createElement('label');
+            label.className = 'checkbox-item' + (isDefault ? ' checked' : '');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = county;
+            checkbox.checked = isDefault;
+            checkbox.addEventListener('change', function() {
+                toggleCounty(county, this);
+            });
+
+            const span = document.createElement('span');
+            span.className = 'checkbox-label';
+            span.textContent = county;
+
+            label.appendChild(checkbox);
+            label.appendChild(span);
+            grid.appendChild(label);
+        });
+
+        document.getElementById('counties-group').style.display = 'block';
+    } catch (error) {
+        console.error('Failed to load state data:', error);
+    }
+}
+
+// Toggle county selection
+function toggleCounty(county, checkbox) {
+    const label = checkbox.parentElement;
+    if (checkbox.checked) {
+        selectedCounties.push(county);
+        label.classList.add('checked');
+    } else {
+        selectedCounties = selectedCounties.filter(c => c !== county);
+        label.classList.remove('checked');
+    }
+}
+
+// Navigate to step
+function goToStep(step) {
+    // Validate current step before moving forward
+    if (step > currentStep && !validateCurrentStep()) {
+        return;
+    }
+
+    // Hide current step
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+
+    // Update progress bar
+    document.querySelectorAll('.progress-step').forEach(el => {
+        const stepNum = parseInt(el.dataset.step);
+        el.classList.remove('active', 'completed');
+        if (stepNum === step) {
+            el.classList.add('active');
+        } else if (stepNum < step) {
+            el.classList.add('completed');
+        }
+    });
+
+    // Show new step
+    currentStep = step;
+    document.getElementById(`step-${step}`).classList.add('active');
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+// Validate current step
+function validateCurrentStep() {
+    if (currentStep === 1) {
+        const firmName = document.getElementById('firm_name').value.trim();
+        const attorneyName = document.getElementById('attorney_name').value.trim();
+        const state = document.getElementById('state').value;
+
+        if (!firmName) {
+            alert('Please enter your firm name.');
+            return false;
+        }
+        if (!attorneyName) {
+            alert('Please enter the primary attorney name.');
+            return false;
+        }
+        if (!state) {
+            alert('Please select your state.');
+            return false;
+        }
+        if (selectedCounties.length === 0) {
+            alert('Please select at least one preferred county.');
+            return false;
+        }
+    } else if (currentStep === 2) {
+        const apiKey = document.getElementById('airtable_api_key').value.trim();
+        const baseId = document.getElementById('airtable_base_id').value.trim();
+        const tableId = document.getElementById('airtable_table_id').value.trim();
+
+        if (!apiKey || !baseId || !tableId) {
+            alert('Please fill in all Airtable fields.');
+            return false;
+        }
+    } else if (currentStep === 3) {
+        const aiKey = document.getElementById('ai_api_key').value.trim();
+        if (!aiKey) {
+            alert('Please enter your AI API key.');
+            return false;
+        }
+    }
+    return true;
+}
+
+// Select AI provider
+function selectProvider(provider, cardElement) {
+    document.querySelectorAll('.radio-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    cardElement.classList.add('selected');
+
+    const label = document.getElementById('ai_key_label');
+    const input = document.getElementById('ai_api_key');
+    const hint = document.getElementById('ai_key_hint');
+
+    if (provider === 'anthropic') {
+        label.textContent = 'Anthropic API Key';
+        input.placeholder = 'sk-ant-...';
+        hint.innerHTML = 'Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Anthropic Console</a>';
+    } else {
+        label.textContent = 'OpenAI API Key';
+        input.placeholder = 'sk-...';
+        hint.innerHTML = 'Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI Platform</a>';
+    }
+
+    // Clear validation status
+    document.getElementById('ai-status').innerHTML = '';
+    input.value = '';
+}
+
+// Validate Airtable connection
+async function validateAirtable() {
+    const statusEl = document.getElementById('airtable-status');
+    statusEl.innerHTML = '<span class="status-pending">Validating...</span>';
+
+    try {
+        const response = await fetch('/api/validate/airtable', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                api_key: document.getElementById('airtable_api_key').value,
+                base_id: document.getElementById('airtable_base_id').value,
+                table_id: document.getElementById('airtable_table_id').value,
+            })
+        });
+
+        const result = await response.json();
+        if (result.valid) {
+            statusEl.innerHTML = '<span class="status-success">&#10003; ' + result.message + '</span>';
+        } else {
+            statusEl.innerHTML = '<span class="status-error">&#10007; ' + result.message + '</span>';
+        }
+    } catch (error) {
+        statusEl.innerHTML = '<span class="status-error">&#10007; Connection failed</span>';
+    }
+}
+
+// Validate AI API key
+async function validateAI() {
+    const statusEl = document.getElementById('ai-status');
+    statusEl.innerHTML = '<span class="status-pending">Validating...</span>';
+
+    const provider = document.querySelector('input[name="ai_provider"]:checked').value;
+
+    try {
+        const response = await fetch('/api/validate/ai', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                provider: provider,
+                api_key: document.getElementById('ai_api_key').value,
+            })
+        });
+
+        const result = await response.json();
+        if (result.valid) {
+            statusEl.innerHTML = '<span class="status-success">&#10003; ' + result.message + '</span>';
+        } else {
+            statusEl.innerHTML = '<span class="status-error">&#10007; ' + result.message + '</span>';
+        }
+    } catch (error) {
+        statusEl.innerHTML = '<span class="status-error">&#10007; Validation failed</span>';
+    }
+}
+
+// Generate configuration
+async function generateConfig() {
+    if (!validateCurrentStep()) {
+        return;
+    }
+
+    const provider = document.querySelector('input[name="ai_provider"]:checked').value;
+
+    try {
+        const response = await fetch('/api/generate-config', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                mode: 'starter',
+                firm_name: document.getElementById('firm_name').value,
+                attorney_name: document.getElementById('attorney_name').value,
+                state: document.getElementById('state').value,
+                sol_years: stateData ? stateData.sol_years : 3,
+                preferred_counties: selectedCounties,
+                airtable_api_key: document.getElementById('airtable_api_key').value,
+                airtable_base_id: document.getElementById('airtable_base_id').value,
+                airtable_table_id: document.getElementById('airtable_table_id').value,
+                ai_provider: provider,
+                ai_api_key: document.getElementById('ai_api_key').value,
+            })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            document.getElementById('env-path').textContent = result.env_path;
+            showSuccess();
+        } else {
+            alert('Failed to generate configuration: ' + result.message);
+        }
+    } catch (error) {
+        alert('Failed to generate configuration. Please try again.');
+    }
+}
+
+// Show success screen
+function showSuccess() {
+    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.querySelectorAll('.progress-step').forEach(el => {
+        el.classList.remove('active');
+        el.classList.add('completed');
+    });
+    document.getElementById('step-success').classList.add('active');
+}
+</script>
+{% endblock %}
