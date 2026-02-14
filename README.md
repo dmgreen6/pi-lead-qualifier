@@ -22,7 +22,7 @@ Automatically score and prioritize your intake leads, so you spend time on cases
 ### 1. Download
 
 ```bash
-git clone https://github.com/your-username/pi-lead-qualifier.git
+git clone https://github.com/dmgreen6/pi-lead-qualifier.git
 cd pi-lead-qualifier
 ```
 
@@ -80,7 +80,7 @@ Want your state added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 For 24/7 operation, deploy to Railway:
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/your-username/pi-lead-qualifier)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/dmgreen6/pi-lead-qualifier)
 
 Estimated cost: ~$5/month
 
@@ -88,8 +88,8 @@ Estimated cost: ~$5/month
 
 ## Support
 
-- **Issues:** [GitHub Issues](https://github.com/your-username/pi-lead-qualifier/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/your-username/pi-lead-qualifier/discussions)
+- **Issues:** [GitHub Issues](https://github.com/dmgreen6/pi-lead-qualifier/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/dmgreen6/pi-lead-qualifier/discussions)
 - **Need help?** See [docs/find-a-developer.md](docs/find-a-developer.md)
 
 ---

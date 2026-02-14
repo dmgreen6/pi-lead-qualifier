@@ -6,7 +6,7 @@ Thank you for your interest in contributing!
 
 ### Reporting Bugs
 
-1. Check [existing issues](https://github.com/your-username/pi-lead-qualifier/issues) first
+1. Check [existing issues](https://github.com/dmgreen6/pi-lead-qualifier/issues) first
 2. Create a new issue with:
    - What you expected to happen
    - What actually happened
@@ -46,4 +46,4 @@ Currently we support South Carolina and Washington. To add a new state:
 
 ## Questions?
 
-Open a [Discussion](https://github.com/your-username/pi-lead-qualifier/discussions) for questions.
+Open a [Discussion](https://github.com/dmgreen6/pi-lead-qualifier/discussions) for questions.
